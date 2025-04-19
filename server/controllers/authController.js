@@ -31,6 +31,7 @@ export const signUp = async (req,res,next)=>{
 
   } catch (err) {
      console.log(err)
+     //duplicate email break the server 
      return res.status(500).send("Internal server error")
   }
 }
@@ -171,6 +172,27 @@ export const  removeProfileImage = async (req,res,next)=>{
       await user.save();
     return res.status(200).send("Profile image deleted successfully")
 
+  } catch (err) {
+     console.log(err)
+     return res.status(500).send("Internal server error")
+  }
+}
+
+export const  logOut = async (req,res,next)=>{
+  
+  try {
+    console.log("Before logout:", req.cookies.jwt); // Debugging
+
+    // Use clearCookie for proper deletion
+    res.cookie("jwt",{},{
+      maxAge:1,
+      secure:true,
+      sameSite:"None"
+     
+    });
+
+    console.log("After logout:", req.cookies.jwt); // Should now be undefined
+    return res.status(200).json({ message: "Logout successful" });
   } catch (err) {
      console.log(err)
      return res.status(500).send("Internal server error")

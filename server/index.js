@@ -4,7 +4,8 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import mongoose from "mongoose"
 import authRoutes from "./routes/AuthRoute.js"
-
+import contactRoutes from "./routes/contactRoutes.js"
+import setUpSocket from "./socket.js"
 
 dotenv.config();
 
@@ -20,9 +21,11 @@ app.use("/uploads/profiles",express.static('uploads/profiles'))
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth",authRoutes)
+app.use("/api/contacts",contactRoutes)
 const server = app.listen(port,()=>{
     console.log(`server is running  at http://localhost:${port}`)
 })
+setUpSocket(server);
 mongoose.connect(databaseUrl).then(()=>{
     console.log("db connected")
 }).catch((err)=>{

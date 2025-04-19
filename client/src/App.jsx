@@ -31,21 +31,26 @@ function App() {
            if(response.status===200 && response.data.id){
              setUserInfo(response.data)
            }else{
-            setUserInfo("undefined")
-            
+            // setUserInfo("undefined")
+            setUserInfo(null)
            }
         } catch (err) {
-         setUserInfo("undefined")
-         
+         // setUserInfo("undefined")
+         setUserInfo(null)
         }finally{
              setLoading(false)
         }
     }
-    if(!userInfo){
-       getUserData()
-    }else{
-       setLoading(false)
-    }
+   //  if(!userInfo){
+   //     getUserData()
+   //  }else{
+   //     setLoading(false)
+   //  }
+   if (userInfo === null) {
+      getUserData();
+  } else {
+      setLoading(false);
+  }
   },[userInfo,setUserInfo])
   if(loading){
      return <div>loading....</div>

@@ -1,14 +1,14 @@
-import { useAppStore } from "@/store"
+import { useAppStore } from "@/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ChatContainer from "./componenets/chat-container";
-import ContactContainer from "./componenets/contact-container";
-import EmptyChatContainer from "./componenets/empty-chat-container";
+import ContactContainer from "./componenets/contact-container/index";
+import EmptyChatContainer from "./componenets/empty-chat-container/index";
 
 
 export default function Chat(){
-    const {userInfo} = useAppStore();
+    const {userInfo,selectedChatType} = useAppStore();
      const navigate = useNavigate();
      useEffect(()=>{
        if(!userInfo.profileSetUp){
@@ -18,9 +18,15 @@ export default function Chat(){
      },[userInfo,navigate])
     return(
         <div className="flex h-[100vh] text-white overflow-hidden">
-            <ContactContainer/>  
-            <EmptyChatContainer/>          
-            <ChatContainer/>
+            <ContactContainer/> 
+           
+            {
+                selectedChatType === undefined? 
+                (<EmptyChatContainer/> )
+                : 
+                (<ChatContainer/>)
+            } 
+            
         </div>
     )
 }
